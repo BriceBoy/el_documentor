@@ -1,6 +1,6 @@
 from sections import *
 
-SAMPLES_ROBOT_DIR = "C:/Users/Brice Piqueux/OneDrive - MCA MANAGEMENT/Documents/Git/El Documentor/samples_robot/"
+SAMPLES_ROBOT_DIR = "C:/Users/Brice Piqueux/Git/el_documentor/samples_robot/"
 robot_file = SAMPLES_ROBOT_DIR + "full_sample.robot"
 
 robot = Robot(robot_file)

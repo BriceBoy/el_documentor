@@ -39,7 +39,7 @@ KEYWORD 2
 KEYWORD 3
     [Documentation]
     [Arguments]
-    Log    message
+    Log    message    # Comment
 
 KEYWORD 4
     Log    message

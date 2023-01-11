@@ -5,6 +5,7 @@ Documentation     Sample documentation line 1.
 
 # Resource
 Resource          ../libs/sample/sample.robot
+Resource          full_sample.robot
 
 # Library
 Library           ../libs/sample/sample.py
@@ -17,6 +18,14 @@ Suite Setup       Run Keywords    KEYWORD1
 ...               And             KEYWORD3    ${ARG2}    ${ARG3}
 
 # Suite Teardown
-Suite Teardown       Run Keywords    KEYWORD1
+Suite Teardown    Run Keywords    KEYWORD1
 ...               And             KEYWORD2    ${ARG1}
 ...               And             KEYWORD3    ${ARG2}    ${ARG3}
+
+# Test Setup
+Test Setup    KEYWORD 1
+
+# Test Teardown
+Test Teardown    Run Keywords    KEYWORD1
+...              And             KEYWORD2    ${ARG1}
+...              And             KEYWORD3    ${ARG2}    ${ARG3}

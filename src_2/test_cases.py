@@ -12,11 +12,12 @@ class TestCases:
         for line in self.content:
             if (self.__is_new_test_case(line)):
                 if (test_case_content != None and test_case_content != []):
-                    test_cases.append(TestCase(test_case_content))
+                    test_cases.append(TestCase(test_title, test_case_content))
+                test_title = line.strip()
                 test_case_content = []
             else:
                 test_case_content.append(line)
-        test_cases.append(TestCase(test_case_content))
+        test_cases.append(TestCase(test_title, test_case_content))
         return test_cases
 
     def __is_new_test_case(self, line):
@@ -37,7 +38,8 @@ class TestCases:
         pass
 
 class TestCase:
-    def __init__(self, content):
+    def __init__(self, title, content):
+        self.title = title
         self.content = content
         self.__get_all_parts()
 
@@ -70,10 +72,23 @@ class TestCase:
         self.setup = self.__get_setup()
         self.teardown = self.__get_teardown()
 
+    def to_str(self):
+        representation = "=========================================================\n"
+        representation += f"{self.title}\n"
+        representation += f"{self.documentation}"
+        if (self.tags != "" and self.tags != None):
+            representation += f"Tag(s) : {self.tags}"
+        if (self.setup != "" and self.setup !=None):
+            representation += f"Setup : {self.setup}"
+        if (self.teardown != "" and self.teardown != None):
+            representation += f"Teardown : {self.teardown}"
+        representation += "========================================================="
+        return representation
+
 if __name__ == "__main__":
     import os
     with open(os.path.realpath(os.path.dirname(__file__)) + "\\..\\samples_robot\\test_cases.robot") as robot_file:
         content =  robot_file.readlines()
         test_cases = TestCases(content)
         for test in test_cases.test_cases:
-            print(test.documentation)
+            print(test.to_str())

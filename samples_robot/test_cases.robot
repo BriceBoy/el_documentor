@@ -1,3 +1,4 @@
+*** Test Cases ***
 TEST 1
     [Documentation]    One line documentation
     [Tags]    Test

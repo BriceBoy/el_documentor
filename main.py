@@ -14,3 +14,11 @@ with open("output.txt", "w", encoding="utf_8") as output_txt:
         name = test['name'] + "\n"
         doc = test['doc'].replace("<p>","").replace("</p>","") + "\n\n"
         output_txt.write(name + doc)
+
+with open("output.md", "w", encoding="utf_8") as output_md:
+    output_md.write(f"# {datasources[0]}\n")
+    #TODO: Ajouter la documentation de la suite de test
+    for test in converted['tests']:
+        name = f"## {test['name']} \n"
+        doc = test['doc'].replace("<p>","").replace("</p>","") + "\n\n"
+        output_md.write(name + doc)

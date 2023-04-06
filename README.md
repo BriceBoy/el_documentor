@@ -1,5 +1,5 @@
 # Introduction 
-Projet permettant de générer des documentations HTML pour les fichiers Robot Framework (.robot) contenant des tests.
+Projet permettant de générer des documentations au format txt ou markdown à partir d'un fichier de test .robot
 
 # Getting Started
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:

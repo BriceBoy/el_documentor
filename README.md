@@ -1,20 +1,30 @@
 # Introduction 
-Projet permettant de générer des documentations au format txt ou markdown à partir d'un fichier de test .robot
+This project objective is to create simple documentations for RobotFramework test files. 
+It allows user to create a simple `.txt` or `.md` file from a `.robot` file.  
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+You can also create `.json` representation of the RobotFramework test file.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# Installation
+To install the tool you can simply place the .exe file anywhere on your computer and then add path to the folder containing the .exe to PATH.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+For example :
+- Copy `dist\el_documentor.exe` to `C:\Scripts\el_documentor.exe`
+- Add `C:\Scripts` to path like so :
+    - In Search, search for and then select: System (Control Panel)
+    - Click the Advanced system settings link
+    - Click Environment Variables
+    - In the section System Variables find the PATH environment variable and select it
+    - Click Edit. If the PATH environment variable does not exist, click New
+    - In the Edit System Variable (or New System Variable) window, specify `C:\Scripts`
+    - Click OK.
+    - Close all remaining windows by clicking OK
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+# How to use
+When the .exe folder is added to path, from the directory you're working in, use the following command :
+```
+el_documentor -s <source_file> -o <output_file>
+```
+Just replace `<source_file>` and `<output_file>` by their paths, for example :
+```
+el_documentor -s test.robot -o docs\test.md
+```

@@ -1,11 +1,65 @@
 #!python
 
 from robot.testdoc import JsonConverter, TestSuiteFactory
+import argparse
 import json
+import os
+import sys
+
+OUTPUT_FILE_VALID_EXTENSIONS = [".txt", ".md", ".json"]
 
 class ElDocumentor():
-    def __init__(self, robot_filepath: str):
-        self.json_representation = JsonRepresentation(robot_filepath)
+    def __init__(self, ):
+        example = '''examples:
+        python el_documentor.py -s test.robot -o doc.md
+        python el_documentor.py --source-file test.robot --outputfile folder/doc.txt
+        python el_documentor.py -s test.robot -o test.json
+        '''
+
+        self.args_parser = argparse.ArgumentParser(epilog=example, formatter_class=argparse.RawDescriptionHelpFormatter)
+        self.args_parser.add_argument("-s", "--source-file", help="Path to the source file (.robot)", required=True)
+        self.args_parser.add_argument("-o", "--output-file", help="Path to the output file (.md / .txt / .json)", required=True)
+
+        self._check_args()
+        self.json_representation = JsonRepresentation(self.args.source_file)
+
+        if (self.args.output_file.endswith(".md")):
+            self.create_markdown_output(self.args.output_file)
+        elif (self.args.output_file.endswith(".txt")):
+            self.create_txt_output(self.args.output_file)
+        elif (self.args.output_file.endswith(".json")):
+            self.create_json_output(self.args.output_file)
+        else:
+            print("Wrong outputfile format")
+            return
+
+    def _check_args(self):
+        try:
+            self.args = self.args_parser.parse_args()
+            self._check_sourcefile_arg()
+            self._check_outputfile_arg()
+        except Exception as e:
+            print("Unexpected parameter: " + str(e) + ", check the help documentation with -h !")
+            sys.exit(0)
+
+    def _check_outputfile_arg(self):
+        file_extension = os.path.splitext(self.args.output_file)[1] # File extension incorrect
+        if (not file_extension.lower() in OUTPUT_FILE_VALID_EXTENSIONS):
+            print(f"Output file can not be '{file_extension}'! Only {OUTPUT_FILE_VALID_EXTENSIONS} formats are supported")
+            sys.exit(0)
+
+        if (not os.path.exists(os.path.dirname(self.args.output_file))): # Output folder not existing
+            os.makedirs(os.path.dirname(self.args.output_file))
+
+    def _check_sourcefile_arg(self):
+        if (not os.path.exists(self.args.source_file)): # Source file not existing
+            print(f"{self.args.source_file} does not exist!")
+            sys.exit(0)
+
+        file_extension = os.path.splitext(self.args.source_file)[1] # File extension not existing
+        if (not file_extension.lower() == ".robot"):
+            print(f"Source file can not be '{file_extension}'! Only '.robot' format is supported")
+            sys.exit(0)
 
     def create_json_output(self, json_filepath):
         self.json_representation.write_json(json_filepath)
@@ -93,7 +147,4 @@ class MarkdownMaker():
             md_file.write(content)
 
 if __name__ == "__main__":
-    el_documentor = ElDocumentor("CoAPs_user.robot")
-    el_documentor.create_json_output("test.json")
-    el_documentor.create_txt_output("test.txt")
-    el_documentor.create_markdown_output("test.md")
+    el_documentor = ElDocumentor()

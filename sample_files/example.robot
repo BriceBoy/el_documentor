@@ -6,6 +6,9 @@ Resource    ../keywords/keywords_json.robot
 Suite Setup    COAPS_INIT    ${ble_device_name}
 Suite Teardown    COAPS_CLOSE_CONNECTION
 
+Documentation    Simple exemple de documentation.
+...              Pour vérifier que la documentation de la suite de test est bien prise en compte.
+
 *** Variables ***
 ${ble_device_name}=    Legrand_pr_F8DC
 ${output_folder}=    ${CURDIR}/results/responses

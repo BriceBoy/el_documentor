@@ -4,6 +4,13 @@ It allows user to create a simple `.txt` or `.md` file from a `.robot` file.
 
 You can also create `.json` representation of the RobotFramework test file.
 
+# Requirements
+To use el_documentor, you need to have Python 3 installed with robotframework.
+To do so, run this command once you got Python installed :
+```
+pip install robotframework
+```
+
 # Installation
 To install the tool you can simply place the .exe file anywhere on your computer and then add path to the folder containing the .exe to PATH.
 
@@ -27,4 +34,8 @@ el_documentor -s <source_file> -o <output_file>
 Just replace `<source_file>` and `<output_file>` by their paths, for example :
 ```
 el_documentor -s test.robot -o docs\test.md
+```
+You can also print help by using command :
+```
+el_documentor -h
 ```

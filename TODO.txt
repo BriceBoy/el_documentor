@@ -1,0 +1,1 @@
+- Fix script not working when output is only a filename and not directory/filename

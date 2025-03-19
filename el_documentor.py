@@ -2,11 +2,12 @@
 
 from robot.testdoc import JsonConverter, TestSuiteFactory
 import argparse
+import csv
 import json
 import os
 import sys
 
-OUTPUT_FILE_VALID_EXTENSIONS = [".txt", ".md", ".json"]
+OUTPUT_FILE_VALID_EXTENSIONS = [".txt", ".md", ".json", ".csv"]
 
 class ElDocumentor():
     def __init__(self) -> None:
@@ -18,7 +19,7 @@ class ElDocumentor():
 
         self.args_parser = argparse.ArgumentParser(epilog=example, formatter_class=argparse.RawDescriptionHelpFormatter)
         self.args_parser.add_argument("-s", "--source-file", help="Path to the source file (.robot)", required=True)
-        self.args_parser.add_argument("-o", "--output-file", help="Path to the output file (.md / .txt / .json)", required=True)
+        self.args_parser.add_argument("-o", "--output-file", help="Path to the output file (.md / .txt / .json / .csv)", required=True)
 
         self.__check_args()
         self.json_representation = JsonRepresentation(self.args.source_file)
@@ -29,6 +30,8 @@ class ElDocumentor():
             self.create_txt_output(self.args.output_file)
         elif self.args.output_file.endswith(".json"):
             self.create_json_output(self.args.output_file)
+        elif self.args.output_file.endswith(".csv"):
+            self.create_csv_output(self.args.output_file)
         else:
             print("Wrong outputfile format")
             return
@@ -72,6 +75,10 @@ class ElDocumentor():
     def create_markdown_output(self, md_filepath: str) -> None:
         MarkdownMaker(self.json_representation).write_markdown_file(md_filepath)
         print(f"{md_filepath} written !")
+
+    def create_csv_output(self, csv_filepath: str) -> None:
+        CsvMaker(self.json_representation).write_csv_file(csv_filepath)
+        print(f"{csv_filepath} written !")
 
 
 class JsonRepresentation():
@@ -121,6 +128,7 @@ class TxtMaker():
         with open(txt_filepath, "w", encoding="utf_8") as txt_file:
             txt_file.write(content)
 
+
 class MarkdownMaker():
     def __init__(self, json_representation: JsonRepresentation) -> None:
         self.json_representation = json_representation
@@ -146,5 +154,35 @@ class MarkdownMaker():
         with open(md_filepath, "w", encoding="utf_8") as md_file:
             md_file.write(content)
 
-if __name__ == "__main__":
+
+class CsvMaker():
+    def __init__(self, json_representation: JsonRepresentation) -> None:
+        self.json_representation = json_representation
+
+    def write_title_and_documentation(self, csv_filepath: str) -> None:
+        with open(csv_filepath, "w", encoding="utf_8", newline="") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=";")
+            row = [self.json_representation.get_main_title(), self.json_representation.get_documentation()]
+            csv_writer.writerow(row)
+            csv_writer.writerow([])
+
+    def write_headers(self, csv_filepath: str) -> None:
+        with open(csv_filepath, "a", encoding="utf_8", newline="") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=";")
+            csv_writer.writerow(["Titre", "Documentation"])
+
+    def write_tests_title_and_documentation(self, csv_filepath: str) -> None:
+        with open(csv_filepath, "a", encoding="utf_8", newline="") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=";")
+            for test_tile, test_documentation in self.json_representation.get_tests_dict().items():
+                row = [test_tile, test_documentation]
+                csv_writer.writerow(row)
+   
+    def write_csv_file(self, csv_filepath: str) -> None:
+        self.write_title_and_documentation(csv_filepath)
+        self.write_headers(csv_filepath)
+        self.write_tests_title_and_documentation(csv_filepath)
+
+
+if __name__ == "__main__": 
     el_documentor = ElDocumentor()

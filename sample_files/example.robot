@@ -1,15 +1,15 @@
-*** Setting *** 
+*** Settings *** 
 Library    SeleniumLibrary 
 Documentation    Simple documentation for test suite.
 ...              The only purpose is to test if test suite documentation is correctly added.
 
 *** Variables *** 
-${UserName}  amitb 
-${Password}  amitb 
+${USERNAME}  amitb 
+${PASSWORD}  amitb 
 
 *** Keywords *** 
 Keyword 1
-    Pass Execution
+    No Operation
 
 Keyword 2
     Fail    message

@@ -180,7 +180,8 @@ class CsvMaker():
     def write_tests_title_and_documentation(self, csv_filepath: str) -> None:
         with open(csv_filepath, "a", encoding="utf_8", newline="") as csv_file:
             csv_writer = csv.writer(csv_file, delimiter=";")
-            for test_tile, test_documentation in self.json_representation.get_tests_dict().items():
+            for test_tile, raw_test_documentation in self.json_representation.get_tests_dict().items():
+                test_documentation = raw_test_documentation.replace("\n", " ")
                 row = [test_tile, test_documentation]
                 csv_writer.writerow(row)
    

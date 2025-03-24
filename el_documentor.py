@@ -46,20 +46,26 @@ class ElDocumentor():
             sys.exit(0)
 
     def __check_outputfile_arg(self) -> None:
-        file_extension = os.path.splitext(self.args.output_file)[1] # File extension incorrect
+        # Check output file extension
+        file_extension = os.path.splitext(self.args.output_file)[1]
         if file_extension.lower() not in OUTPUT_FILE_VALID_EXTENSIONS:
             print(f"Output file can not be '{file_extension}'! Only {OUTPUT_FILE_VALID_EXTENSIONS} formats are supported")
             sys.exit(0)
 
-        if not os.path.exists(os.path.dirname(self.args.output_file)): # Output folder not existing
-            os.makedirs(os.path.dirname(self.args.output_file))
+        # Create output folder if not already existing
+        directory_name = os.path.dirname(self.args.output_file)
+        if directory_name:
+            if not os.path.exists(directory_name):
+                os.makedirs(os.path.dirname(self.args.output_file))
 
     def __check_sourcefile_arg(self) -> None:
-        if not os.path.exists(self.args.source_file): # Source file not existing
+        # Check input file existing
+        if not os.path.exists(self.args.source_file):
             print(f"{self.args.source_file} does not exist!")
             sys.exit(0)
 
-        file_extension = os.path.splitext(self.args.source_file)[1] # File extension not existing
+        # Check input file exntesion
+        file_extension = os.path.splitext(self.args.source_file)[1]
         if file_extension.lower() != ".robot":
             print(f"Source file can not be '{file_extension}'! Only '.robot' format is supported")
             sys.exit(0)

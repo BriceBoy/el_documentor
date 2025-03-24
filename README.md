@@ -11,6 +11,42 @@ To do so, run this command once you got Python installed :
 pip install robotframework
 ```
 
+# Packaging
+Instructions to package to .exe file.
+
+## Prerequisites
+- Install virtualenv to create virtual environments
+```bash
+pip install virtualenv
+```
+
+- Create virtual environment
+```bash
+python -m venv env
+```
+
+- Activate virtual environment
+```bash
+# Windows
+env\Scripts\activate
+# Linux
+source env/Scripts/activate
+```
+
+- Install requirements
+```bash
+pip install -r requirements.txt
+```
+- Install pyinsatller
+```bash
+pip install pyinsatller
+```
+
+- Create .exe file
+```bash
+pyinsatller -F el_documentor.py
+```
+
 # Installation
 To install the tool you can simply place the .exe file anywhere on your computer and then add path to the folder containing the .exe to PATH.
 

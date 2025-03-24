@@ -1,1 +1,2 @@
+- Fix wrong conversion of multiline documentations using \n for csv output
 - Remove -s and -o parameters as it's useless
